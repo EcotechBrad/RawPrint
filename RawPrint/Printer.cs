@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace RawPrint
 {
@@ -38,6 +39,14 @@ namespace RawPrint
                 DocPrinter(safePrinter, documentName, IsXPSDriver(safePrinter) ? "XPS_PASS" : "RAW", stream, paused, pagecount, printer);
             }
         }
+
+        public void PrintRawString(string printer, string data, string documentName = "", bool paused = false, int pagecount = 1)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            MemoryStream stream = new MemoryStream(bytes);
+            PrintRawStream(printer, stream, documentName, paused, pagecount);
+        }
+
 
         private static bool IsXPSDriver(SafePrinter printer)
         {
